@@ -1,0 +1,113 @@
+spring boot app eka extract kalaama folder eka open kalaama open kala folder ekema nama tyena folder ekak eeka athule tyenwa ne . eeka aulak kiyala hithala ee folder eka eliyata move karala ara main ma mul folder eka delete karanna epa . mokada ethakot project eka open karala maven eka install karaata passe error ekak enwa
+
+
+
+me blog eke widihata karanna 
+resful api eka hadaganna pluwan 
+
+https://www.codejava.net/frameworks/spring-boot/spring-boot-hello-world-restful-web-services-tutorial
+
+	
+<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+kiyana dependancy eka aniwaren oni
+
+
+
+
+spring boot daana tutoriwal ekak tyenwa 
+https://www.graphql-java.com/tutorials/getting-started-with-spring-boot/
+link eke 
+eke spring boot gui ekath enable karanwa 
+mulin eeka ta anuwa karala passe add karana eewa add karapan 
+eeka thama best 
+https://github.com/graphql-java/tutorials
+uda github link eke tyenwa gradle ekak 
+but api karanne maven ne 
+ithin ekata adalawa balapan .loku wenasak naha folder structure eke 
+
+
+
+
+
+spring boot wala @beans daanne y kiyala dannwada 
+mehema hithanna 
+oya class ekak hadanwa . eeke tyena default cunstructior ekata amatharawa aluth cunstructor ekak liwwoth eeka spring boot ekata scan karaganna baha 
+ethkota case . 
+so uba karanna oni main application eke @beans kiyala ekak daanwa .ara functio/cunstrocture eka penwala . eeka thama rahasa 
+eema kalaama spring boot ekata pluwan 
+https://www.youtube.com/watch?v=aS9SQITRocc
+uda video eka balapan therei seen eka 
+
+
+
+
+
+https://support.smartbear.com/alertsite/docs/monitors/web/selenium/export-eclipse-java-project-as-runnable-jar.html
+meke tyenawa java proiject eka jar ekak widihata export karana hati
+jar eka up karanne
+cmd eke
+java -jar abc.jar
+jar eka run une anha so 
+mama maven install karala 
+mvn clean package  		kiyala command ekak adaala directory eke gahann tyenwa [ eka eclips terminal eke gahanna kalin balapan eclips terminal eke directory eka mokadda kiala ]
+ekak gahanna yanne 
+
+
+mehemai mama java -jar dammata wAda kale naha app eka . mokaddo aulak giya 
+baladdi cmd eke java kiwama enne jaa version 14 
+ithin wAda karai da bn 
+so mama java 8 eke path eka hoyala eka haraha execute karnn yanne jar eka 
+D:\openlogic-openjdk-8u332-b09-windows-64\bin\java -jar jareka.jar
+ widihata command eka liwwa 
+
+
+eth hari giye naha 
+
+pom eka thiyena directory eka cmd eke open karala  mvn package  gahala packageing karanna pluwan
+
+but ekedi mata error ekak aawa 
+
+
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'serverEndpointExporter' defined in class path resource [com/oembedler/moon/graphql/boot/GraphQLWebsocketAutoConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: javax.websocket.server.ServerContainer not available
+        at org.spri
+
+
+so mama baluwama eke eka eka kathaa thibba
+
+samahara than wala kiyala thibba aluth spring boot eka graphql ekata hariyata support naha kiyala kathawakith 
+
+anyway mama thawa baluwa 
+mvn package -DskipTests
+kiyala command ekak hamba una 
+
+ethakota cmd eke nam error ekak awe naha . 
+ita passe project eke target kiyanafolder eka athulata giya . eke thiyenawa ape project eke jar eka . so ethana cmd eka open karala 
+D:\openlogic-openjdk-8u332-b09-windows-64\bin\java -jar name_of_the_jar.jar
+command eken run kalaa balann 
+
+wadee goda 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

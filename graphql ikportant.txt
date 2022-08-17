@@ -1,0 +1,191 @@
+mama hadala tyenne newuser saha user login eka witarai 
+anith eewa kalin thibba eewa
+
+
+
+
+
+
+
+
+mutaton illanne mehemai 
+
+
+mutation  {
+  newAuthor(firstName:"waruna"  , lastName:"ananada"  ) {
+        firstName   
+  }
+}
+
+
+
+query liyanne mehema
+
+
+query {
+  findAllAuthors {
+    firstName
+    lastName
+   
+  }
+}
+
+
+
+
+
+mutation  {
+  newuser(firstName:"waruna"  , password:"ananada"  ) {
+        firstName   
+  }
+}
+
+
+
+
+query {
+  userlogin ( firstName:"waruna"  , password:"ananada" ) {
+    firstName
+    password
+   
+  }
+}
+
+
+
+
+
+
+
+
+mutation  {
+  newBook(title:"waruna"  , isbn:"ananada" , pageCount:10 ,author:10  ) {
+        title   
+  }
+}
+
+
+
+mutation  {
+  deleteBook(  id :"62ee557f1d59871a183dd6c2") 
+}
+
+
+query  {
+  countBooks 
+}
+
+
+
+query  {
+  findAllBooks {
+        title   
+  }
+}
+
+
+[me eka ma 
+query findAllBooks {
+  findAllBooks {
+        title   
+  }
+}
+ widihata type kalath aulak naha . enwa result . 
+anith ewatath meeka adaalai ]
+
+
+
+
+
+
+
+
+mee graphql api eka postman eken reach karanna baha 
+eeka hari gassanna 
+@Autowired  [ meka controller eke liyanne ]
+kiyala ekak danna oni 
+ehema nattham 
+@bean [ meka main application eke liyanne ]
+kiyala ekak daanna tyenwa
+ 
+
+
+
+
+
+graphql ekata graphiql eken request yawawwath postman wage clientt kenek gen request yawanna bari ayi kiyala i found 
+
+graphql.servlet.mapping: /graphql
+
+kiyala application.properties file eke liyanna oni 
+ethkota wade hari 
+
+
+
+
+
+
+
+
+
+
+
+mongo db eke api document save karaddi calss name eka th save wenwa document eke 
+eeka nathi karaganna oninm karanna oni 
+
+@Autowired private MongoDbFactory mongoDbFactory;
+@Autowired private MongoMappingContext mongoMappingContext;
+  @Bean
+  public MappingMongoConverter mappingMongoConverter() {
+    DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory);
+    MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
+    converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+    return converter;
+  }
+
+
+
+kiyana eka thama liyanne 
+https://walkingtechie.blogspot.com/2018/07/spring-boot-remove-class-field-from-mongodb-document.html
+me site eke thama tyenne solution eka 
+
+
+
+
+
+
+
+
+graph ql walata api wena ma .graphql file ekakuth liyanwa 
+eka program ekata use wenwata amatharawa apiwa query set eka eka thanaka balaganna pahasuwak diilla tyewna eeka refference ekak widihata aragena 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

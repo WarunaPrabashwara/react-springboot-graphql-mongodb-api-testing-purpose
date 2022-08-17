@@ -1,0 +1,89 @@
+patangatthu gaman spring boot wala enwa pom eke aulak 
+
+eeka resolve kale 
+
+https://stackoverflow.com/questions/33301073/spring-boot-application-cant-resolve-the-org-springframework-boot-package
+
+solution 
+Right button on project -> Maven -> Update Project
+then check "Force update of Snapshots/Releases"
+
+kiyana eka
+
+
+
+
+
+
+
+iita passse th java build path case ekak enwa ekata slution eka me link eke tyenwa 
+https://stackoverflow.com/questions/6077572/java-build-path-problems
+
+Right click on project, Properties, Java Build Path.
+Remove the current JRE library.
+Click Add library > JRE System Library > Workspace default JRE
+
+
+
+
+iilagata maven update karanna
+
+
+mewage spring boot ekka java 8 thama use karanne 
+
+pom.xml eke java version eka hadanna tyenew 
+
+run as eke 
+java application ekak  kiyala dipan
+
+ilagata debug eke ara pahala ta tyena iithale obala run as java app kiyala gahuwama wade hari
+[ run as newe 
+app eke nama tyenne . ]
+
+
+
+
+
+
+export karaddi 
+
+If you use an IDE such as Eclipse or Spring Tool Suite, right-click on the project, then select Run As > Maven build…:
+[ dewakni eka ]
+tika welawak balan inna 
+create wecchi path eka penwanwa
+
+https://www.codejava.net/frameworks/spring-boot/how-to-package-spring-boot-application-to-jar-and-war
+
+link eka balapan
+
+
+eke jar eka hadena thama cmd open karala 
+
+java –jar YourProjectName-version.jar
+
+mekata java 8 eke bin eka dipan . systemeke tyenne wena java ekak nam meeka up wenne naha 
+
+D:\openlogic-openjdk-8u332-b09-windows-64\bin\java –jar YourProjectName-version.jar
+
+wage gahapan ehemanm 
+
+wage gahapan 
+
+
+By default, Spring Boot applications are packaged as executable JAR files with embedded Tomcat. You can run them directly by java -jar command. Traditional Java web applications need a servlet container (application server) to run. You need to have such server installed, configured, and then deploy your applications to it. And you need to have such server prepared for each environment. With Spring Boot, this approach is inverted as the app server is directly in your JAR. This has many advantages, but sometimes you may need to have your Spring Boot app as a traditional WAR instead. For example, if you are tied by your company policies and need to deploy to a provided app server.
+
+war ekak widihata deploy kaloth embeded tomcat enne naha api ekka . vut jar ekak gatthoth enwa 
+
+
+
+
+
+
+meken mama therum gatthu deyak thama java -jar kiyala gahala up karana app thamayi eclips wala develop karaddi run as java app kiyala diila run karwanawa athe. i guess 
+
+
+
+
+
+
+whitelabel issue eka enne index.html eka nathi nisa . index.html ekak dammahama eka hariyanwa 

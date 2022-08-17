@@ -1,0 +1,56 @@
+node use wena eewage packages locallyth insatall karanna pluwan . globallyth install karannath pluwan , ee nisa thama node walin hadana app wala gitignore ekadefault enne 
+but wpf , .net , java wage eewage ehema naha . ee nisa thama eewage default gitignore file ekak enne natthe 
+
+
+but awashyanam apita gitignore ile ekak hadanna pluwan meekata th .
+
+
+
+react app eka hadala antimata 
+
+npm run build
+
+walin build karaama thama optimized app ekak enne 
+
+https://create-react-app.dev/docs/deployment/
+balanna
+
+meke karanne mehemayi 
+bild folder eka gannwa 
+ilagata eeka athulata yanne nathuwa  cmd ekak gannwa [ cmd eke dir gahuwama aran build kiyana older eka penwann oni saralawama kiwoth ]
+iilagata 
+serve -s build
+command eka gahuwama wade hari 
+[ mulin          npm install -g serve
+		command eken serve kiyana server eka install karala inn oni 
+
+]
+
+
+habayi mehemai 
+
+ee server methods static bnm kiyala site ekaka thibba 
+ane manda balanna wenwa hariyata 
+
+
+dynamic naha 
+
+apita oninm client side routing kiyana eka 
+eeka 
+https://create-react-app.dev/docs/deployment/
+link eke tyenwa 
+
+ 
+
+
+
+
+
+
+===================================================
+
+
+
+
+
+

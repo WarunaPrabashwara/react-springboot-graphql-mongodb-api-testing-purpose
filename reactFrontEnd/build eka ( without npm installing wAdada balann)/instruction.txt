@@ -1,0 +1,4 @@
+build folder eka ahtulata gihilla 
+cmd eka open karala 
+npx serve
+ gahanna
