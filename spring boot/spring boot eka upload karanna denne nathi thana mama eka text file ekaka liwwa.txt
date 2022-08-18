@@ -1,0 +1,987 @@
+pom.xml
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.4.RELEASE</version>
+        <relativePath/>
+    </parent>
+    <groupId>com.atechie.io</groupId>
+    <artifactId>graphql-springboot-mongo-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>graphql-springboot-mongo-demo</name>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <kotlin.version>1.3.10</kotlin.version>
+    </properties>
+
+    <dependencies>
+    
+	    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+		  
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-spring-boot-starter</artifactId>
+            <version>5.7.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-java-tools</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphiql-spring-boot-starter</artifactId>
+            <version>5.7.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.199</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.9</version>
+        </dependency>
+        
+        
+        
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+
+
+
+
+
+==========================================================================
+
+
+
+src\main\resources
+eke 
+
+application.properties
+author.graphqls
+book.graphqls
+userlogin.graphqls
+
+kiyala file hatharak hadana 
+
+contents piliwelin pahala tyewna 
+
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+graphql.servlet.mapping: /graphql
+spring.data.mongodb.uri=mongodb://localhost:27017/springtest
+
+
+
+-------
+
+type Author {
+    id: ID!
+    firstName: String!
+    lastName: String!
+}
+type Query {
+    findAllAuthors: [Author]!
+    countAuthors: Long!
+}
+type Mutation {
+    newAuthor(firstName: String!, lastName: String!) : Author!
+}
+
+
+
+-----
+
+type Book {
+    id: ID!
+    title: String!
+    isbn: String!
+    pageCount: Int
+    author: Author
+}
+extend type Query {
+    findAllBooks: [Book]!
+    countBooks: Long!
+}
+extend type Mutation {
+    newBook(title: String!, isbn: String!, pageCount: Int, author: ID!) : Book!
+    deleteBook(id: ID!) : Boolean
+    updateBookPageCount(pageCount: Int!, id: ID!) : Book!
+}
+
+-----
+
+
+
+type userlogin {
+    id: ID!
+    firstName: String!
+    password: String!
+}
+type Query {
+    userlogin(firstName: String!, password: String!) : userlogin!
+}
+type Mutation {
+    newuser(firstName: String!, password: String!) : userlogin!
+}
+
+
+
+
+
+
+
+
+
+
+==============================================
+
+
+
+\src\main\java\com\atechie\io\demo
+eke 
+golder 3 k saha aplication eke main ma file eka tyenwa 
+
+
+folders 
+model 
+repository
+resolver
+
+app eke main ma file eka 
+
+
+GraphqlSpringbootMongoDemoApplication.java
+
+
+
+-------------
+
+GraphqlSpringbootMongoDemoApplication.java
+
+
+
+
+
+package com.atechie.io.demo;
+
+import com.atechie.io.demo.repository.AuthorRepository;
+import com.atechie.io.demo.repository.BookRepository;
+import com.atechie.io.demo.repository.userloginRepository;
+import com.atechie.io.demo.resolver.BookResolver;
+import com.atechie.io.demo.resolver.Mutation;
+import com.atechie.io.demo.resolver.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.convert.DbRefResolver;
+import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
+import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@SpringBootApplication
+public class GraphqlSpringbootMongoDemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(GraphqlSpringbootMongoDemoApplication.class, args);
+    }
+
+    // meka damme nattham graphiql walin query saha mutation liyanna pluwan unata , post man eken ho wena client kenekgen apita query ewanna baha  
+    @Bean
+    public BookResolver authorResolver(AuthorRepository authorRepository) {
+        return new BookResolver(authorRepository);
+    }
+
+    @Bean
+    public Query query(AuthorRepository authorRepository, BookRepository bookRepository , userloginRepository userloginRepository) {
+        return new Query(authorRepository, bookRepository , userloginRepository);
+    }
+
+    @Bean
+    public Mutation mutation(AuthorRepository authorRepository, BookRepository bookRepository , userloginRepository userloginRepository  ) {
+        return new Mutation(authorRepository, bookRepository , userloginRepository );
+    }
+     
+    @Autowired private MongoDbFactory mongoDbFactory;
+    @Autowired private MongoMappingContext mongoMappingContext;
+    @Bean
+    public MappingMongoConverter mappingMongoConverter() {
+      DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory);
+      MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
+      converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+      return converter;
+    }
+          
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/graphiql", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return bean;
+    }
+   
+}
+
+
+
+
+
+
+
+
+
+------------
+
+
+model folder eke 
+
+Author.java
+Book.java
+userlogin.java
+
+kiyala file 3 i 
+
+eewage contents below
+
+
+
+
+
+package com.atechie.io.demo.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "authors")
+public class Author {
+
+    @Id
+    private String id;
+    private String firstName;
+    private String lastName;
+
+    public Author() {
+    }
+
+    public Author(String id) {
+        this.id = id;
+    }
+
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Author author = (Author) o;
+
+        return id.equals(author.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+package com.atechie.io.demo.model;
+
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "books")
+public class Book {
+
+    @Id
+    private String id;
+    private String title;
+    private String isbn;
+    private int pageCount;
+    private Author author;
+
+    public Book() {
+    }
+
+    public Book(String title, String isbn, int pageCount, Author author) {
+        this.title = title;
+        this.isbn = isbn;
+        this.pageCount = pageCount;
+        this.author = author;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        return id.equals(book.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", pageCount=" + pageCount +
+                ", author=" + author +
+                '}';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.atechie.io.demo.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "users")
+public class userlogin {
+
+    @Id
+    private String id;
+    private String firstName;
+    private String password;
+
+    public userlogin() {
+    }
+
+    public userlogin(String id) {
+        this.id = id;
+    }
+
+    public userlogin(String firstName, String password) {
+        this.firstName = firstName;
+        this.password = password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getpassword() {
+        return password;
+    }
+
+    public void setpassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        userlogin author = (userlogin) o;
+
+        return id.equals(author.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "user{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------
+
+repository   folder eke 
+
+contents
+
+AuthorRepository.java
+BookRepository.java
+userloginRepository.java
+
+contents below
+
+
+
+
+
+package com.atechie.io.demo.repository;
+
+import com.atechie.io.demo.model.Author;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface AuthorRepository extends MongoRepository<Author, String> {
+}
+
+
+
+
+
+
+
+package com.atechie.io.demo.repository;
+
+import com.atechie.io.demo.model.Book;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface BookRepository extends MongoRepository<Book, String> {
+}
+
+
+
+
+
+
+
+
+
+package com.atechie.io.demo.repository;
+
+import com.atechie.io.demo.model.userlogin;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface userloginRepository extends MongoRepository<userlogin, String> {
+
+	userlogin findByfirstName(String firstName ) ;
+}
+
+
+
+
+
+
+
+
+
+-----------
+
+resolver folder eke tyena ewa 
+
+
+BookResolver.java
+Mutation.java
+Query.java
+
+
+
+
+
+
+
+
+
+
+package com.atechie.io.demo.resolver;
+
+import com.atechie.io.demo.model.Author;
+import com.atechie.io.demo.model.Book;
+import com.atechie.io.demo.repository.AuthorRepository;
+import com.coxautodev.graphql.tools.GraphQLResolver;
+
+public class BookResolver implements GraphQLResolver<Book> {
+    private AuthorRepository authorRepository;
+
+    public BookResolver(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
+
+    public Author getAuthor(Book book) {
+        return authorRepository.findById(book.getAuthor().getId()).get();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+package com.atechie.io.demo.resolver;
+
+import com.atechie.io.demo.model.Author;
+import com.atechie.io.demo.model.Book;
+import com.atechie.io.demo.model.userlogin;
+import com.atechie.io.demo.repository.AuthorRepository;
+import com.atechie.io.demo.repository.BookRepository;
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.atechie.io.demo.repository.userloginRepository ;
+
+public class Mutation implements GraphQLMutationResolver {
+    private BookRepository bookRepository;
+    private AuthorRepository authorRepository;
+    private userloginRepository userloginRepository ;
+
+       
+    public Mutation(userloginRepository userloginRepository){
+    	this.userloginRepository = userloginRepository;
+    }
+    
+	public Mutation(AuthorRepository authorRepository, BookRepository bookRepository, userloginRepository userloginRepository) {
+		this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
+        this.userloginRepository = userloginRepository ;
+	}
+	
+	public Author newAuthor(String firstName, String lastName) {
+        Author author = new Author();
+        author.setFirstName(firstName);
+        author.setLastName(lastName);
+
+        authorRepository.save(author);
+
+        return author;
+    }
+
+    public userlogin newuser( String username , String password ) {
+    	userlogin user = new userlogin();
+    	user.setFirstName(username);
+    	user.setpassword(password);
+    	System.out.println(user);
+    	userloginRepository.save(user);
+    	return user ;
+    }
+    
+
+    
+    public Book newBook(String title, String isbn, Integer pageCount, String authorId) {
+        Book book = new Book();
+        book.setAuthor(new Author(authorId));
+        book.setTitle(title);
+        book.setIsbn(isbn);
+        book.setPageCount(pageCount != null ? pageCount : 0);
+
+        bookRepository.save(book);
+
+        return book;
+    }
+
+    public boolean deleteBook(String id) {
+        bookRepository.deleteById(id);
+        return true;
+    }
+
+    public Book updateBookPageCount(Integer pageCount, String id) {
+        Book book = bookRepository.findById(id).get();
+        book.setPageCount(pageCount);
+
+        bookRepository.save(book);
+
+        return book;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+package com.atechie.io.demo.resolver;
+
+
+import com.atechie.io.demo.model.Author;
+import com.atechie.io.demo.model.Book;
+import com.atechie.io.demo.repository.AuthorRepository;
+import com.atechie.io.demo.repository.BookRepository;
+import com.atechie.io.demo.repository.userloginRepository;
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import com.atechie.io.demo.model.userlogin;
+
+
+public class Query implements GraphQLQueryResolver {
+    private BookRepository bookRepository;
+    private AuthorRepository authorRepository;
+    private userloginRepository userloginRepository ;
+
+    public Query(AuthorRepository authorRepository, BookRepository bookRepository , userloginRepository userloginRepository ) {
+        this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
+        this.userloginRepository = userloginRepository ;
+    }
+    
+    public userlogin userlogin( String firstName , String password  ) {
+    	userlogin user = new userlogin();
+    	System.out.println(firstName);
+    	String pswd =userloginRepository.findByfirstName( firstName ).getpassword()  ;
+    	System.out.println(pswd);
+    	System.out.println(password);
+    	if(  pswd.equals(password) ) {
+    		System.out.println("a");
+    		user.setFirstName("success");
+    		user.setpassword("success");
+    		return user ;
+    	}
+    	else {
+    		System.out.println("b");
+    		user.setFirstName("fail");
+    		user.setpassword("fail");
+    		return user ;
+    	}
+    	
+    }
+
+    public Iterable<Book> findAllBooks() {
+        return bookRepository.findAll();
+    }
+
+   
+    public Iterable<Author> findAllAuthors() {
+        return authorRepository.findAll();
+    }
+
+    public long countBooks() {
+        return bookRepository.count();
+    }
+
+    public long countAuthors() {
+        return authorRepository.count();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
